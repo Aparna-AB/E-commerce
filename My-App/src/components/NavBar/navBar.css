@@ -1,0 +1,77 @@
+.mainContainer{
+    background-color: white;
+}
+.topHeader{
+    height:30px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+.exclusive{
+    margin-top: 40px;
+    margin-left: 100px;
+}
+
+.headings{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+.headings h6:hover{
+    box-shadow: 2px 2px red;
+    cursor: pointer;
+    /* background-color: rgb(219, 186, 199); */
+    border-radius: 1px;
+}
+.headings2{
+    width: 220px;
+    height: 40px;
+    gap: 34px;
+    opacity: 0px;
+    border: 1px solid transparent;
+    color: grey;
+    margin-top: 32px;
+    background-color: rgb(248, 243, 243);
+    font-size: 12px;
+    padding:10px;
+    font-style: poppins;
+    letter-spacing: 1px;
+    border-radius: 5px;
+}
+.icon1{
+   
+    width: 16px;
+height: 16px;
+top: 4px;
+margin-left: 18px;
+gap: 0px;
+border: 1.5px 0px 0px 0px;
+opacity: 0px;
+color: #000000;
+cursor: pointer;
+
+}
+
+.icons{
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    cursor: pointer;
+
+}
+.icon2{
+    width: 28px;
+    height: 18px;
+    border: 1.5px 0px 0px 0px;
+    color:#000000;
+}
+.icon3{
+    margin-left: 20px;
+    width: 30px;
+height: 20px;
+border: 1.5px 0px 0px 0px;
+}

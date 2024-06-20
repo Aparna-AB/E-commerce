@@ -1,0 +1,45 @@
+.seller-txt1{
+    margin-top: 100px;
+    margin-right: 400px;
+    width:500px;
+}
+.seller-txt2{
+    margin-top: 30px;
+    margin-right: 400px;
+}
+  .sellerLogBtn {
+    margin-left: 150px;
+    margin-top: 50px;
+    width: 200px;
+    background-color: rgb(28, 131, 28);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  .sellerforgotBtn {
+    margin-left: 150px;
+    margin-top: 20px;
+    width: 200px;
+    background-color: #DB4444;
+    border: 1px solid transparent;
+    color: white;
+  }
+  
+  .sellerLoginImg {
+    height: 550px;
+    width: 350px;
+    margin-left: 200px; 
+  }
+  .lab1{
+    margin-left: 50px;
+  }
+  /* .signup-form-flex-div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+   */

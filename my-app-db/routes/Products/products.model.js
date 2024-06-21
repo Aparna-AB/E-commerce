@@ -5,7 +5,7 @@ const {Schema} =mongoose;
 const productSchema= new Schema({
 name: {
     type:String,
-    required:"active",
+    required:true,
 },
 title: {
     type:String,

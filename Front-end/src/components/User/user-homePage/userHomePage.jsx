@@ -24,24 +24,30 @@ function UserHomePage() {
   const currTime = `${hr}:${min}:${sec}`;
 
   useEffect(() => {
-    const userId= localStorage.getItem("e-commerce") || null ;
- const token = localStorage.getItem("power-token") || null;
+    const userData = JSON.parse(localStorage.getItem("ecommerce-userData")) || null;
+    const token = localStorage.getItem("ecommerce-token") || null;
+    const userId = userData?._id || null;
+    
     if (token && userId) {
-      getUserData(token,userId);
+      getUserData(token, userId);
     } else {
       setUserData(null);
     }
-
   }, []);
 
   const getUserData = async (token, userId) => {
+    console.log("token", token, "userId ", userId);
     try {
-      const res = await axios.get("http://localhost:3080/user", {
-        headers: {
-          Authorization: `Bearer ${token,userId}`,
+      // todo => correct api
+
+      const res = await axios.get(`http://localhost:3080/user/${userId}`, {
+        headers: {  
+          Authorization: `Bearer ${token}`,
         },
       });
-      const data = res?.data?.userData || null;
+
+      console.log("resp", res.data.data);
+      const data = res.data.data;
       if (data) {
         console.log("Data", data);
         setUserData(data);
@@ -52,7 +58,7 @@ function UserHomePage() {
       console.error("Error on get user data", error);
       if (error.response.status === 404 || error.response.status === 500) {
         alert("User not found");
-      }else{
+      } else {
         alert("something went wrong!! Try again later");
       }
     }

@@ -15,8 +15,8 @@ function Login() {
   const dispatch = useDispatch();
 
   const [userLoginData, setUserLoginData] = useState({
-    email: "",
-    password: "",
+    email: "anju@gmail.com",
+    password: "12341234",
   });
 
   const handleChange = (e) => {
@@ -39,38 +39,34 @@ function Login() {
         console.log("Invalid email");
         return;
       }
+
+          
+    if (userLoginData.password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return;
+    }
       sendLoginDataToServer(userLoginData);
     }
   };
 
   const sendLoginDataToServer = async (data) => {
-    if (userLoginData.password.length < 8) {
-      alert("Password must be at least 8 characters long");
-      return;
-    }
+
+
     try {
       const response = await axios.post('http://localhost:3080/user/login', data);
       if (response.status === 200) {
         console.log("user logged in successfully");
-        dispatch(addTodo({
-          firstName: userLoginData.firstName,
-          email:userLoginData.email
-        }));
+        // dispatch(addTodo({
+        //   firstName: userLoginData.firstName,
+        //   email:userLoginData.email
+        // }));
 
-        let userData = response.data;
-        let token = userData.accessToken;
-        if (token) {
-          let obj = {
-            userData: userData.data,
-            token: token
-          }
-          localStorage.setItem("e-commerce", JSON.stringify(obj))
-          alert("Login success");
-
-          navigate("/userHomePage");
-        } else {
-          console.log("Token not found");
-        }
+        let userData = response.data.data;
+        let token = response.data.accessToken;
+        localStorage.setItem("ecommerce-userData", JSON.stringify(userData))
+        localStorage.setItem("ecommerce-token", token)
+        console.log("user data", userData)
+        
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +74,8 @@ function Login() {
         let mssg = error.response?.data?.message || "something went wrong, please try again later";
         alert(mssg);
       }
+    }finally {
+      setUserLoginData({ email: "", password: "" });
     }
   };
 

@@ -1,5 +1,6 @@
-const { default: mongoose } = require("mongoose");
+const mongoose  = require("mongoose");
 const { userModel } = require("./users.model");
+
 const jwt = require("jsonwebtoken");
 const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY;
 
@@ -105,8 +106,12 @@ const userId = async (req, res) => {
     try {
         const id = req.params.userId;
         console.log("id", typeof id);
+        const isValid = mongoose.isValidObjectId(id);
+        if (!isValid){
+            return res.status(400).json({ message: "Invalid user id" });
+        }
         const user = await userModel.findById(id);
-
+        console.log("user", user)
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }

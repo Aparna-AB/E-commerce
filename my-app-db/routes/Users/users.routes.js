@@ -8,7 +8,8 @@ const {createUser,allUsers,userLogin, userId, userUpdate}=require("./users.contr
 userRoutes.post("/signUp",validateEmail,createUser);
 userRoutes.post("/login",validateEmail,userLogin);
 userRoutes.get("/allUsers",authenticateToken,allUsers);
-userRoutes.get("/:userId",authenticateToken,userId);
+//todo => change userId to getUserDetailsByUserId
+userRoutes.get("/:userId",authenticateToken, userId);
 userRoutes.patch("/:id",userUpdate);
 
 module.exports={userRoutes}

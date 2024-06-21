@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const PORT = process.env.PORT || 3080;
-console.log(process.env.PORT)
 app.use(express.json());
 app.use(cors());
 
@@ -26,6 +25,6 @@ app.use("/seller",sellerRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`server running at port ${PORT}`);
+        console.log(`server running at port http://localhost:${PORT}`);
     })
 })

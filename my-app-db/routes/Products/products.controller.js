@@ -70,8 +70,10 @@ const getProductsBySellerId = async (req, res) => {
   try {
     const sellerId = req.params.id;
     // abcd
-    const products = await ProductModel.find({ sellerId: sellerId });
-   
+    const products = await ProductModel.find({ sellerId: sellerId })
+      .populate("sellerId")
+      .exec();
+
     return res
       .status(200)
       .json({ message: "All products by seller id", data: products });

@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../../../redux/reduxTodoReducer/reduxTodoReducer";
+// import { addTodo } from "../../../redux/reduxTodoReducer/reduxTodoReducer";
 import NavBar from "../../NavBar/navBar";
 import { Button, Form } from "react-bootstrap";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import Footer from "../../Footer/footer";
 
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [validated, setValidated] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [userLoginData, setUserLoginData] = useState({
-    email: "anju@gmail.com",
-    password: "12341234",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -56,6 +57,7 @@ function Login() {
       const response = await axios.post('http://localhost:3080/user/login', data);
       if (response.status === 200) {
         console.log("user logged in successfully");
+        navigate("/user/profilePage");
         // dispatch(addTodo({
         //   firstName: userLoginData.firstName,
         //   email:userLoginData.email
@@ -165,6 +167,9 @@ function Login() {
             </Button>
           </div>
         </Form>
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
   );

@@ -43,7 +43,7 @@ export default function NavBar() {
                     <Row>
                         <Col md={3}>
                             <h4 className="exclusive">
-                                <strong>Exclusive</strong>
+                                <strong>Sale upTo 70%</strong>
                             </h4>
                         </Col>
                         <Col lg={5}>

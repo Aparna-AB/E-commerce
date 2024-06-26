@@ -5,24 +5,24 @@ import "./products.css";
 import NavBar from "../NavBar/navBar";
 
 function ProductsDetails() {
-    const { id } = useParams();
-    const [userData, setUserData] = useState(null);
+    const { id } = useParams(id);
+    const [productDetails, setProductDetails] = useState(null);
 
     useEffect(() => {
-        getUser();
+        getProductDetails();
     }, []);
 
 
-    const getUser = async () => {
+    const getProductDetails = async (id) => {
         try {
-            let res = await axios.get("https://fakestoreapi.com/products/" + id);
-            setUserData(res.data);
+            let res = await axios.get(`http://localhost:3080/products/${id}` + id);
+            setProductDetails(res);
         } catch (error) {
             console.log("error", error);
         }
 
     };
-    console.log("id", userData);
+    console.log("id", productDetails);
 
     return (
         <>
@@ -31,16 +31,16 @@ function ProductsDetails() {
                 <h1>Product Details</h1>
             </div>
             <div className="details">
-                {!userData && <h1>Loading...</h1>}
+                {!productDetails && <h1>Loading...</h1>}
 
                 <div class="card" style={{ width: "18rem",border:"1px solid transparent" }}>
-                    <img src={userData?.image} className="imgs" alt="Card image cap" />
+                    <img src={productDetails?.image} className="imgs" alt="Card image cap" />
                     <div class="card-body">
-                        <h4 style={{color:"blue"}}>Price: {userData?.price}</h4>
-                        <h5 className="card-title">Title: {userData?.title}</h5><br/>
+                        <h4 style={{color:"blue"}}>Price: {productDetails?.price}</h4>
+                        <h5 className="card-title">Title: {productDetails?.title}</h5><br/>
                         <h6 className="card-text" style={{color:"orange"}}>
-                        Category: {userData?.category}</h6>
-                        <span style={{color:"grey"}}>Description: {userData?.description}</span>
+                        Name: {productDetails?.name}</h6>
+                        <span style={{color:"grey"}}>Description: {productDetails?.description}</span>
 
                     </div>
                 </div>

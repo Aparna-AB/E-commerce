@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Footer from "../../Footer/footer";
 import axios from 'axios';
 
 import "./sellerSignUp.css";
@@ -227,6 +228,9 @@ const SellerSignUp = () => {
                     </Col>
                 </Row>
             </div>
+            <div>
+        <Footer />
+      </div>
         </>
     );
 };

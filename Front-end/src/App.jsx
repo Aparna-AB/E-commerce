@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "./components/NavBar/navBar";
 import HomePage from "./components/Home/homePage";
 import "./App.css";
 
@@ -13,6 +12,7 @@ function App() {
    <div className="main">
 {/* <NavBar /> */}
 <HomePage />
+{/* <Footer /> */}
    </div>
   )
 

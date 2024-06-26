@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
-
 import "./signIn.css";
 import NavBar from "../../NavBar/navBar";
+import Footer from "../../Footer/footer";
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -72,8 +73,8 @@ const SignUp = () => {
       console.log("Please fill all the fields");
       return;
     } else {
-      if (userData.age < 18) {
-        alert("Sorry, User's age must be 18 or above");
+      if (userData.age < 10) {
+        alert("Sorry, User's age must be 10 or above");
         return;
       }
       if (userData.phoneNumber.length !== 10) {
@@ -107,15 +108,15 @@ const SignUp = () => {
         console.log("user created successfully");
         alert("Login successful.");
         // setTimeout(() => {
-          navigate("/user/Login");
+        navigate("/user/Login");
         // }, 1500);
       }
     } catch (error) {
       console.log(error);
       if (error.response?.status === 400 || error.response?.status === 404) {
-        let mssg=error.response?.data?.message || "something went wrong ,please try later";
+        let mssg = error.response?.data?.message || "something went wrong ,please try later";
         alert(mssg);
-        } else {
+      } else {
         alert("Internal server error");
         setTimeout(() => {
           navigate("/user/ForgotPw");
@@ -190,9 +191,9 @@ const SignUp = () => {
               value={userData?.gender}
             >
               <option value="">Select your gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </Form.Control>
             <Form.Control.Feedback type="invalid">
               Please select your gender.
@@ -349,56 +350,17 @@ const SignUp = () => {
             </Form.Control.Feedback>
           </Form.Group>
         </div>
-
-
-
-        {/* </div> */}
-
-
-
-        {/* <div className="signup-form-flex-div">
-          <Form.Group className="position-relative mt-3">
-            <Form.Label>Upload your photo (Square image) </Form.Label>
-            <Form.Control
-              onChange={handleFilechange}
-              type="file"
-              name="img"
-              accept="image/*"
-            />
-          </Form.Group>
-          <Form.Group className="mt-2 ms-3">
-            <Form.Check
-              required
-              className="signup-check-box "
-              feedbackType="invalid"
-              checked={agreedToTerms}
-              onChange={handleCheckboxChange}
-            />
-            <label htmlFor="" className="ms-3">
-              Agree to our{" "}
-              <span
-                className="text-primary"
-                onClick={() => {
-                  navigate("../terms");
-                }}
-              >
-                {" "}
-                terms and conditions{" "}
-              </span>
-            </label>
-          </Form.Group>
-        </div> */}
-
         <div className="signup-form-flex-div">
           <Button id="user-signup-btn" type="submit" >
             Sign Up
           </Button>
           {/* <Button onClick={redirectLogin} className="btn2" type="submit">Existing User? Log In</Button> */}
         </div>
-        {/* <div className="signup-form-flex-div">
-          <Button onClick={redirectLogin} className="user-signup-btn" type="submit">Existing User? Log In</Button>
-        </div> */}
+
       </Form>
+      <div>
+        <Footer />
+      </div>
     </>
   );
 };

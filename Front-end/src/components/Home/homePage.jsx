@@ -6,7 +6,7 @@ import Image1 from "../../assets/Images/g92-2-500x500 1.png";
 import Image2 from "../../assets/Images/Frame 612.png";
 import Image3 from "../../assets/Images/Frame 613.png";
 import Image4 from "../../assets/Images/Frame 614.png";
-
+import Footer from "../Footer/footer";
 import "./homePage.css";
 import NavBar from "../NavBar/navBar";
 
@@ -173,7 +173,9 @@ function HomePage() {
             </Col>
           </Row>
         </div>
-
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
 

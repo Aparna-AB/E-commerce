@@ -5,6 +5,7 @@ import "./sellerLogin.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import Footer from "../../Footer/footer";
 import axios from "axios";
 
 function SellerLogin() {
@@ -47,24 +48,18 @@ function SellerLogin() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3080/seller/sellerLogin',data);
+      const response = await axios.post('http://localhost:3080/seller/sellerLogin', data);
       if (response.status === 200) {
         console.log("Seller created successfully");
+        navigate("/seller/ProfilePageSeller");
 
-        let sellerData = response.data;
-        let token = sellerData.accessToken;
-        if (token) {
-          let obj = {
-            sellerData: sellerData.data,
-            token: token
-          }
-          localStorage.setItem("e-commerce", JSON.stringify(obj))
-          alert("Seller Login success");
+        let sellerData = response.data.data;
+        let token = response.data.accessToken;
+        console.log("seller token",token);
 
-          navigate("/sellerHomePage");
-        } else {
-          console.log("Token not found");
-        }
+        localStorage.setItem("ecommerce-sellerData", JSON.stringify(sellerData))
+        localStorage.setItem("ecommerce-seller-token", token)
+        console.log("Seller data", sellerData)
       }
     } catch (error) {
       console.log(error);
@@ -79,6 +74,8 @@ function SellerLogin() {
           navigate("/user/ForgotPw");
         }, 1500);
       }
+    }finally {
+      setSellerLoginData({ email: "", password: "" });
     }
   };
 
@@ -185,6 +182,9 @@ function SellerLogin() {
             </Form>
           </Col>
         </Row>
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
   );

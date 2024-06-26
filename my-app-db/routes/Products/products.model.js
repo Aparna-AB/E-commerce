@@ -28,7 +28,11 @@ price: {
 expDate: {
     type: String, 
     default: Date.now()
-    }
+    },
+    // productImg:{
+    //     type:Object,
+    //     default:null,
+    // }
 })
 const ProductModel= mongoose.model("product",productSchema);
 

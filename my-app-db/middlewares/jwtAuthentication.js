@@ -9,13 +9,13 @@ function authenticateToken(req, res, next) {
   if (!token) {
     return res.status(403).json({ message: "Authentication failed." });
   }
-  jwt.verify(token, TOKEN_SECRET_KEY, (err, user) => {
+  jwt.verify(token, TOKEN_SECRET_KEY, (err, all) => {
     console.log("Error on token authentication", err);
     if (err) {
       return res.status(403).json({ message: "Authentication failed." });
     }
-    console.log("user jwt", user)
-    req.user = user;
+    console.log("all jwt", all)
+    req.all = all;
     next();
   });
 }

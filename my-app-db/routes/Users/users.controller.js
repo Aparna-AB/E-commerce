@@ -1,18 +1,21 @@
-const mongoose  = require("mongoose");
-const { userModel } = require("./users.model");
+const mongoose = require("mongoose");
+const { UserModel } = require("./users.model");
 
 const jwt = require("jsonwebtoken");
 const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY;
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 // payload is a data that we store inside jwt
 function generateAccessToken(payload) {
-    console.log("checking token",TOKEN_SECRET_KEY);
-    console.log("payload",payload);
+    console.log("checking token", TOKEN_SECRET_KEY);
+    console.log("payload", payload);
 
-    const token=jwt.sign({data:payload}, TOKEN_SECRET_KEY);
-    console.log("checking for tokens",token);
+    const token = jwt.sign({ data: payload }, TOKEN_SECRET_KEY);
+    console.log("checking for tokens", token);
     return token;
-   
+
 }
 
 //new user-SignUp
@@ -38,19 +41,27 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: "Please provide all the fields" });
         }
 
-        const existingUser = await userModel.findOne({ email });
-        // console.log ("working without await",existingUser);                         //trying it without await keyword
+        if (!(gender === "Male" || gender === "Female" || gender === "Other")) {            //checking the gender
+            return res.status(400).json({ message: "invalid gender" });
+        }
+
+        const ageToNumber = parseInt(age);              //converting age(string) to number
+
+        const existingUser = await UserModel.findOne({ email });                     //trying it without await keyword
         if (existingUser) {
             return res.status(400).json({ message: "Email has already been taken" });
         }
 
-        const newUser = new userModel({
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        console.log("hashed password", hashedPassword);
+
+        const newUser = new UserModel({
             firstName,
             lastName,
             email,
-            password,
+            password: hashedPassword,
             gender,
-            age,
+            age: ageToNumber,
             phoneNumber,
             street,
             city,
@@ -76,12 +87,13 @@ const userLogin = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ message: "Please fill the email and pw fields" });
         }
-        const user = await userModel.findOne({ email });
+        const user = await UserModel.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ message: "Your email-Id or password is incorrect" });
         }
-        if (password !== user.password) {
+        const isPasswordMatch=await bcrypt.compare(password,user.password);  //executes true/false
+        if (!isPasswordMatch) {
             return res
                 .status(404)
                 .json({ message: "Email or password id incorrect." });
@@ -93,7 +105,7 @@ const userLogin = async (req, res) => {
         // console.log("copy user", copyUser);
         console.log("checking");
         const accessToken = generateAccessToken(user._id);
-       
+
         return res.status(200).json({ message: "User login successfully", data: user, accessToken });
 
     } catch (error) {
@@ -102,15 +114,15 @@ const userLogin = async (req, res) => {
 };
 
 //find user with id-------------------------------------------------------------------------------------------------
-const userId = async (req, res) => {
+const getUserDetailsByUserId = async (req, res) => {
     try {
         const id = req.params.userId;
         console.log("id", typeof id);
         const isValid = mongoose.isValidObjectId(id);
-        if (!isValid){
+        if (!isValid) {
             return res.status(400).json({ message: "Invalid user id" });
         }
-        const user = await userModel.findById(id);
+        const user = await UserModel.findById(id);
         console.log("user", user)
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -125,7 +137,7 @@ const userId = async (req, res) => {
 //get all user->for Admin
 const allUsers = async (req, res) => {
     try {
-        const user = await userModel.find();
+        const user = await UserModel.find();
         return res.status(200).json({ message: "List of all users", data: user });
     } catch (error) {
         return res.status(500).json({ message: "Server failed" });
@@ -144,7 +156,7 @@ const userUpdate = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).send("invalid id");
         }
-        const users = await userModel.findById(id);
+        const users = await UserModel.findById(id);
         if (!users) {
             return res.status(404).send("User not found");
         }
@@ -200,7 +212,7 @@ const userUpdate = async (req, res) => {
             updatingField.pincode = pincode;
         }
 
-        const userUpdatedInfo = await userModel.findByIdAndUpdate(
+        const userUpdatedInfo = await UserModel.findByIdAndUpdate(
             id,
             updatingField,
             { new: true }
@@ -217,4 +229,4 @@ const userUpdate = async (req, res) => {
 
 
 
-module.exports = { createUser, allUsers, userLogin, userId, userUpdate };
+module.exports = { createUser, allUsers, userLogin, getUserDetailsByUserId, userUpdate };

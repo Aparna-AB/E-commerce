@@ -1,13 +1,19 @@
 import { FaChevronRight } from "react-icons/fa";
 import { Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BsSearch } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
+import { GrCart } from "react-icons/gr";
 import axios from "axios";
-import "./userHomePage.css";
+import "./profilePage.css";
+import Footer from "../../Footer/footer";
 import NavBar from "../../NavBar/navBar";
 
-function UserHomePage() {
+function ProfilePage() {
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
   // const todos = useSelector((state) => state.todo.eCommerceTodos);
 
   const date = new Date();
@@ -27,7 +33,7 @@ function UserHomePage() {
     const userData = JSON.parse(localStorage.getItem("ecommerce-userData")) || null;
     const token = localStorage.getItem("ecommerce-token") || null;
     const userId = userData?._id || null;
-    
+
     if (token && userId) {
       getUserData(token, userId);
     } else {
@@ -38,10 +44,8 @@ function UserHomePage() {
   const getUserData = async (token, userId) => {
     console.log("token", token, "userId ", userId);
     try {
-      // todo => correct api
-
       const res = await axios.get(`http://localhost:3080/user/${userId}`, {
-        headers: {  
+        headers: {
           Authorization: `Bearer ${token}`,
         },
       });
@@ -59,22 +63,91 @@ function UserHomePage() {
       if (error.response.status === 404 || error.response.status === 500) {
         alert("User not found");
       } else {
-        alert("something went wrong!! Try again later");
+        alert("Something went wrong!! Try again later");
       }
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("e-commerce");
-    localStorage.removeItem("power-token");
-
+    localStorage.removeItem("ecommerce-userData");
+    localStorage.removeItem("ecommerce-token");
     setUserData(null);
+    navigate('/');
+  };
+
+  const HomePage = () => {
+    navigate('/');
+  };
+
+  const ProductsList = () => {
+    navigate('/product/ProductsList');
+  };
+
+  const Cart = () => {
+    navigate('/cart');
   };
 
   return (
     <>
-      <div>
-        <NavBar />
+      <div className="userProfile-mainContainer">
+        <Row>
+          <Col xs={12}>
+            <div className="userProfileHeader">
+              <p>
+                Summer Sale off is here upto 40% for all products and Free
+                Express Delivery!!!! &nbsp; <strong>Shop Now</strong>
+              </p>
+            </div>
+            <Row>
+              <Col md={4}>
+                <div className="userMainContent">
+                  {userData?.firstName ? (
+                    <>
+                      <h5 style={{ fontFamily: "cursive" }}>Welcome ,
+                        <span style={{ color: "blue", textTransform: "capitalize" }}>
+                          <strong> {userData.firstName}
+                          </strong>
+                        </span>
+                      </h5>
+                      <h6><span style={{ fontFamily: "cursive" }}>{userData.email}</span></h6>
+
+                    </>
+                  ) : null}
+                </div>
+              </Col>
+              <Col lg={3}>
+                <div className="headings">
+                  <h6 onMouseUp={HomePage}>Home</h6>
+                  <h6>Contact</h6>
+                  <h6>About</h6>
+                  <h6 onMouseUp={ProductsList}>Products</h6>
+                </div>
+              </Col>
+              <Col md={3}>
+                <div>
+                  <form>
+                    <input type="text" className="headings2" placeholder="What are you looking for?" />
+                    <BsSearch className="icon1" />
+                  </form>
+                </div>
+              </Col>
+              <Col md={2}>
+                <div className="icons">
+                  <BsHeart className="icon2" />
+                  <GrCart className="icon3" onMouseUp={Cart} />
+                  <button
+                    className="logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+
+              </Col>
+              <hr />
+            </Row>
+          </Col>
+        </Row>
       </div>
       <div className="userHome-div">
         <Row>
@@ -82,6 +155,9 @@ function UserHomePage() {
             <Row>
               <Col md={3}>
                 <div className="userHomeSidebar">
+                  <h5 className="userProfileExclusive">
+                    <strong><u>Exclusives</u></strong>
+                  </h5><br />
                   <h6>
                     Woman's Fashion <FaChevronRight />
                   </h6>
@@ -107,30 +183,9 @@ function UserHomePage() {
                 </div>
                 <div className="hrLine"></div>
               </Col>
-              <Col lg={8}>
-                <div className="userMainContent">
-                  {/* {todos.map((todo) => (
-                    <div style={{ display: "flex" }} key={todo.id}>
-                      <h5 style={{ marginRight: "20px" }}>({todo.firstName})</h5>
-                      <h5 style={{ marginRight: "20px" }}>{todo.email}</h5>
-                    </div>
-                  ))} */}
-                  {userData?.firstName ? (
-                    <div>
-                      <h5>{userData.firstName}</h5>
-                      {/* <h5>{userData.email}</h5> */}
-
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          setUserData(null);
-                        }}
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  ) : null}
-                </div>
+              <Col lg={7}>
+              </Col>
+              <Col lg={1}>
                 <div className="userHome-content2">
                   <h6>
                     <span style={{ color: "red" }}>Date:</span> {currDate}
@@ -145,8 +200,11 @@ function UserHomePage() {
         </Row>
         <hr />
       </div>
+      <div>
+        <Footer />
+      </div>
     </>
   );
 }
 
-export default UserHomePage;
+export default ProfilePage;

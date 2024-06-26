@@ -1,5 +1,5 @@
-1. give structure for user model. provide required true field for necessary items.  (user.model.js)
-2. gender validation for user model   (user.controller.js)
-3. change userModel to UserModel (user.model.js)
+1//. give structure for user model. provide required true field for necessary items.  (user.model.js)
+//2. gender validation for user model   (user.controller.js)
+//3. change userModel to UserModel (user.model.js)//
 
 4. 

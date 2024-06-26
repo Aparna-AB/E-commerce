@@ -4,6 +4,6 @@ const {createProduct,allProducts,prdctId} =require("./products.controller.js");
 
 productRoutes.post("/addProduct",createProduct);
 productRoutes.get("/viewProducts",allProducts);
-productRoutes.get("/:prdctId",prdctId);
+productRoutes.get("/:id",prdctId);
 
 module.exports= {productRoutes};

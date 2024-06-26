@@ -1,10 +1,24 @@
 const { SellerModel } = require("./seller.model");
 const mongoose = require("mongoose");
 
+const jwt = require("jsonwebtoken");
+const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY;
+
+//password bcrypt
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 // payload is a data that we store inside jwt
 function generateAccessToken(payload) {
-    return jwt.sign(payload, "1234ABCD");
+    console.log("checking token", TOKEN_SECRET_KEY);
+    console.log("payload", payload);
+
+    const token = jwt.sign({ data: payload }, TOKEN_SECRET_KEY);
+    console.log("checking for tokens", token);
+    return token;
+
 }
+
 
 //seller signUp-------------------------------------------------------------------
 const createSeller = async (req, res) => {
@@ -17,13 +31,15 @@ const createSeller = async (req, res) => {
         if (alreadyExistingEmail) {
             return res.status(400).json({ message: "Email already exists" });
         }
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newSeller = new SellerModel({
             name,
             age,
             address,
             phoneNumber,
             email,
-            password,
+            password: hashedPassword,
         });
 
         //save
@@ -45,18 +61,23 @@ const sellerLogin = async (req, res) => {
         if (!seller) {
             return res.status(400).json({ message: "Invalid Email" });
         }
-        if (password !== seller.password) {
-            return res.status(404).json({ message: "Couldn't find the user" });
+        const isPasswordMatch=await bcrypt.compare(password,seller.password);
+        if (!isPasswordMatch) {
+            return res.status(404).json({ message: "Couldn't find the seller" });
         }
+        console.log("checking access Token for seller", seller);
 
         //jwt used here to generate access token
+
         // const copySeller = { ...seller };
         // console.log("before copy seller", copySeller);
         // delete copySeller.password;
         // console.log("copy seller", copySeller);
-        // const accessToken = generateAccessToken(copySeller);
 
-        return res.status(200).json({ message: "Login Successfully", data: seller });
+        console.log("checking");
+        const accessToken = generateAccessToken(seller._id);
+
+        return res.status(200).json({ message: "Seller login successfully", data: seller, accessToken });
     } catch (error) {
         return res.status(500).send({ message: error.message });
     }
@@ -73,7 +94,7 @@ const getSellerById = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).send("Invalid student id");
         }
-        const seller = await SellerModel.findById({ id });
+        const seller = await SellerModel.findById(id);
         if (!seller) {
             return res.status(404).send("student not found");
         }

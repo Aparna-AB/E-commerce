@@ -24,6 +24,7 @@ h1{
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap:8px;
 }
 .images{
     height:120px;
@@ -56,4 +57,12 @@ h1{
 }
 .b2:hover{
     box-shadow: 3px 3px rgb(215, 142, 7);
+}
+.card{
+    border: 1px solid rgb(115, 128, 53);
+    box-shadow: 2px 5px 5px rgb(92, 207, 230);
+    width: 18rem;
+    display: flex;
+    padding-left: 10px;
+
 }

@@ -55,7 +55,7 @@ const handleBack=()=>{
             <div className="productOrder">
                 {viewProduct.length === 0 && <h2>Data loading...</h2>}
                 {viewProduct.map((product) => (
-                    <div key={product._id} className="card" style={{ width: "18rem", border: "1px solid transparent" }}>
+                    <div key={product._id} className="card">
                         <img
                             src={product.productImg}
                             alt="Product"

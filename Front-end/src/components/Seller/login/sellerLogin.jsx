@@ -112,7 +112,7 @@ function SellerLogin() {
               onSubmit={handleSubmit}
             >
               <Form.Group as={Row} className="seller-txt1">
-                <Form.Label className="lab1" column>Email</Form.Label>
+                {/* <Form.Label className="lab1" column>Email</Form.Label> */}
                 <Col>
                   <Form.Control
                     required
@@ -128,7 +128,7 @@ function SellerLogin() {
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="seller-txt2">
-                <Form.Label className="lab1" column>Password</Form.Label>
+                {/* <Form.Label className="lab1" column>Password</Form.Label> */}
                 <Col>
                   <div
                     style={{

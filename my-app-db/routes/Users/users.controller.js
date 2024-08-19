@@ -33,7 +33,9 @@ const createUser = async (req, res) => {
             city,
             state,
             nationality,
-            pincode } = req.body;
+            pincode,
+            } = req.body;
+        console.log("req body", req.body);
 
         if (!firstName || !lastName || !email || !password || !gender || !age || !phoneNumber || !street || !city || !state ||
             !nationality || !pincode) {
@@ -46,6 +48,7 @@ const createUser = async (req, res) => {
         }
 
         const ageToNumber = parseInt(age);              //converting age(string) to number
+        // let obj=req.file;
 
         const existingUser = await UserModel.findOne({ email });                     //trying it without await keyword
         if (existingUser) {
@@ -67,7 +70,8 @@ const createUser = async (req, res) => {
             city,
             state,
             nationality,
-            pincode
+            pincode,
+            profilePic: req.file
         });
 
         await newUser.save();
@@ -92,7 +96,7 @@ const userLogin = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "Your email-Id or password is incorrect" });
         }
-        const isPasswordMatch=await bcrypt.compare(password,user.password);  //executes true/false
+        const isPasswordMatch = await bcrypt.compare(password, user.password);  //executes true/false
         if (!isPasswordMatch) {
             return res
                 .status(404)
@@ -226,7 +230,28 @@ const userUpdate = async (req, res) => {
 };
 
 //Delete the user---------------------------------------------------------------------------------------------------------------
+const deleteUser = async (req, res) => {
+    try {
+      const id = req.params.id;
+      if (!id) {
+        return res.status(400).send("All fields are required");
+      }
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send("invalid id");
+      }
+      const users = await UserModel.findById(id);
+      if (!users) {
+        return res.status(404).send("User not found");
+      }
+      const user = await UserModel.findByIdAndDelete(id);
+      return res
+        .status(200)
+        .json({ message: "User deleted successfully", data: user });
+    } catch (error) {
+      return res.status(500).json({ message: "Server failed" });
+    }
+  };
+  
 
 
-
-module.exports = { createUser, allUsers, userLogin, getUserDetailsByUserId, userUpdate };
+module.exports = { createUser, allUsers, userLogin, getUserDetailsByUserId, userUpdate, deleteUser };

@@ -1,17 +1,22 @@
 const express = require("express");
-const cors=require("cors");
 const app = express();
+app.use(express.json());
+
+const cors = require("cors");
+app.use(cors());
+
 const dotenv = require("dotenv");
 dotenv.config();
 
+const multer = require('multer');
+
 const PORT = process.env.PORT || 3080;
-app.use(express.json());
-app.use(cors());
 
 const { connectDB } = require("./connectDB.js");
 const { userRoutes } = require("./routes/Users/users.routes.js");
 const { productRoutes } = require("./routes/Products/products.routes.js");
-const {sellerRoutes}=require("./routes/Seller/seller.routes.js");
+const { sellerRoutes } = require("./routes/Seller/seller.routes.js");
+const { adminRoutes } = require("./routes/Admin/admin.routes.js");
 
 
 app.get("/", (req, res) => {
@@ -20,7 +25,8 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
-app.use("/seller",sellerRoutes);
+app.use("/seller", sellerRoutes);
+app.use("/admin", adminRoutes);
 
 
 connectDB().then(() => {

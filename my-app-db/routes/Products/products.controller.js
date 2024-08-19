@@ -69,7 +69,6 @@ const prdctId = async (req, res) => {
 const getProductsBySellerId = async (req, res) => {
   try {
     const sellerId = req.params.id;
-    // abcd
     const products = await ProductModel.find({ sellerId: sellerId })
       .populate("sellerId")
       .exec();

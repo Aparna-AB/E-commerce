@@ -25,11 +25,11 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
-sellerId: {
-    type: mongoose.Types.ObjectId,
-    ref: "seller",
-    required: true
-},
+    sellerId: {
+        type: mongoose.Types.ObjectId,
+        ref: "seller",
+        required: true
+    },
     expDate: {
         type: String,
         default: Date.now()

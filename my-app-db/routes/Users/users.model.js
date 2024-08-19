@@ -53,7 +53,10 @@ const userSchema = new Schema({
         type: Number,
         required: true,
     },
-    // img: null,
+    profilePic: {
+        type: Object,
+        default: null,
+    }
 })
 
 const UserModel = mongoose.model("User", userSchema);

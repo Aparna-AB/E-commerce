@@ -9,12 +9,11 @@ import { GrCart } from "react-icons/gr";
 import axios from "axios";
 import "./profilePage.css";
 import Footer from "../../Footer/footer";
-import NavBar from "../../NavBar/navBar";
+import ImageFrame from "../../../assets/Images/Frame 560.png";
 
 function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  // const todos = useSelector((state) => state.todo.eCommerceTodos);
 
   const date = new Date();
   const day = date.getDate();
@@ -86,6 +85,9 @@ function ProfilePage() {
   const Cart = () => {
     navigate('/cart');
   };
+  const handleEdit = () => {
+    navigate('/user/editProfile');
+  };
 
   return (
     <>
@@ -105,21 +107,18 @@ function ProfilePage() {
                     <>
                       <h5 style={{ fontFamily: "cursive" }}>Welcome ,
                         <span style={{ color: "blue", textTransform: "capitalize" }}>
-                          <strong> {userData.firstName}
+                          <strong> {userData.firstName} {userData.lastName}
                           </strong>
                         </span>
                       </h5>
-                      <h6><span style={{ fontFamily: "cursive" }}>{userData.email}</span></h6>
 
                     </>
                   ) : null}
                 </div>
               </Col>
-              <Col lg={3}>
+              <Col lg={2}>
                 <div className="headings">
                   <h6 onMouseUp={HomePage}>Home</h6>
-                  <h6>Contact</h6>
-                  <h6>About</h6>
                   <h6 onMouseUp={ProductsList}>Products</h6>
                 </div>
               </Col>
@@ -153,15 +152,23 @@ function ProfilePage() {
         <Row>
           <Col>
             <Row>
-              <Col md={3}>
+              <Col md={2}>
                 <div className="userHomeSidebar">
+                  <h6>
+                    <span style={{ color: "red" }}>Date:</span> {currDate}
+                  </h6>
+                  <h6>
+                    <span style={{ color: "red" }}>Time:</span> {currTime}
+                  </h6>
+                  <br />
+
+                  <h6 onClick={handleEdit}>
+                    Edit Profile<FaChevronRight />
+                  </h6>
+                  <br />
                   <h5 className="userProfileExclusive">
                     <strong><u>Exclusives</u></strong>
                   </h5><br />
-                  <h6>
-                    Woman's Fashion <FaChevronRight />
-                  </h6>
-                  <br />
                   <h6>
                     Men's Fashion <FaChevronRight />
                   </h6>
@@ -170,31 +177,39 @@ function ProfilePage() {
                   <br />
                   <h6>Home & Lifestyle</h6>
                   <br />
-                  <h6>Medicines</h6>
-                  <br />
-                  <h6>Sports & Outdoor</h6>
-                  <br />
                   <h6>Baby's & Toys</h6>
-                  <br />
-                  <h6>Groceries & Pets</h6>
                   <br />
                   <h6>Health & Beauty</h6>
                   <br />
                 </div>
-                <div className="hrLine"></div>
               </Col>
-              <Col lg={7}>
-              </Col>
-              <Col lg={1}>
-                <div className="userHome-content2">
-                  <h6>
-                    <span style={{ color: "red" }}>Date:</span> {currDate}
-                  </h6>
-                  <h6>
-                    <span style={{ color: "red" }}>Time:</span> {currTime}
-                  </h6>
-                </div>
-              </Col>
+
+              <div className="hrLine"></div>
+
+              {userData?.email ? (
+                <>
+                  <Col lg={3} style={{ marginLeft: "150px" }}>
+                    <h6>Email:- <br />
+                      <span style={{ color: "blue" }}>
+                        {userData.email}</span></h6>
+
+                    <h6 style={{ marginTop: "30px" }}>Mobile:- <br />
+                      <span style={{ color: "blue" }}>
+                        {userData.phoneNumber}</span></h6>
+                  </Col>
+
+                  <Col lg={4} style={{ marginLeft: "150px" }}>
+                    <h6>Street:- <br />
+                      <span style={{ color: "blue" }}>
+                        {userData.street}</span></h6>
+
+                    <h6 style={{ marginTop: "30px" }}>City:- <br />
+                      <span style={{ color: "blue" }}>
+                        {userData.city}</span></h6>
+                  </Col>
+                </>
+              ) : null}
+
             </Row>
           </Col>
         </Row>

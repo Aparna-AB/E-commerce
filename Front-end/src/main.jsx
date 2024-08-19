@@ -21,6 +21,10 @@ import UserOtp from './components/otp/userGetOtp.jsx';
 import './index.css'
 import ProfilePageSeller from './components/Seller/ProfilePage/profilePageSeller.jsx';
 import AddProductDetails from './components/Seller/addProduct/addProductDetails.jsx';
+import AdminSignUp from './components/Admin/signUp/signUp.jsx';
+import AdminLogin from './components/Admin/login/login.jsx';
+import AdminProfilePage from './components/Admin/profilePage/profilePage.jsx';
+import { EditProfile } from './components/User/editProfile/editUser.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -37,7 +41,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/Footer" element={< Footer />} />
         <Route path="/HomePage" element={<HomePage />} />
 
-        <Route path="/user/profilePage" element={< ProfilePage />} />
+        <Route path="/user/homePage" element={<ProfilePage  />} />
+        <Route path="/user/editProfile" element={<EditProfile />} />
 
         {/* Product Details */}
         <Route path="/product/ProductsList" element={< ProductsList />} />
@@ -47,8 +52,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         {/* Seller */}
         <Route path="/seller/SellerSignUp" element={<SellerSignUp />} />
         <Route path="/seller/SellerLogin" element={<SellerLogin />} />
-        <Route path="/seller/ProfilePageSeller" element={<ProfilePageSeller />} />
+        <Route path="/seller/homePage" element={<ProfilePageSeller />} />
         <Route path="/seller/AddProductDetails" element={<AddProductDetails />} />
+
+        {/* {Admin} */}
+        <Route path="/admin/SignUp" element={<AdminSignUp />} />
+        <Route path="/admin/Login" element={<AdminLogin />} />
+        <Route path="/admin/ProfilePage" element={<AdminProfilePage />} />
+
 
 
         <Route path="/ForgotPw" element={<ForgotPw />} />

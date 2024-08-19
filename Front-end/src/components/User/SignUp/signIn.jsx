@@ -12,6 +12,7 @@ import Footer from "../../Footer/footer";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  // const [myFile,setMyFile]=useState(null);
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -25,7 +26,7 @@ const SignUp = () => {
     state: "Kerala",
     nationality: "India",
     pincode: "",
-    img: null,
+    profilePic: null,
   });
 
   const [validated, setValidated] = useState(false);
@@ -68,13 +69,17 @@ const SignUp = () => {
       !userData.city ||
       !userData.state ||
       !userData.pincode ||
-      !userData.nationality
+      !userData.nationality ||
+      !userData.profilePic
     ) {
       console.log("Please fill all the fields");
       return;
     } else {
       if (userData.age < 10) {
         alert("Sorry, User's age must be 10 or above");
+        return;
+      } if (!userData.profilePic) {
+        alert("Please select a file");
         return;
       }
       if (userData.phoneNumber.length !== 10) {
@@ -97,16 +102,36 @@ const SignUp = () => {
       //   console.log("Not checked");
       //   return;
       // }
-      sendDataToServer(userData);
+      const formData = new FormData();
+      formData.append("profilePic", userData.profilePic);
+      formData.append("firstName", userData.firstName);
+      formData.append("lastName", userData.lastName);
+      formData.append("email", userData.email);
+      formData.append("password", userData.password);
+      formData.append("gender", userData.gender);
+      formData.append("phoneNumber", userData.phoneNumber);
+      formData.append("age", userData.age);
+      formData.append("street", userData.street);
+      formData.append("city", userData.city);
+      formData.append("state", userData.state);
+      formData.append("pincode", userData.pincode);
+      formData.append("nationality", userData.nationality);
+
+
+      sendDataToServer(formData);
     }
   };
 
-  const sendDataToServer = async () => {
+  const sendDataToServer = async (formData) => {
     try {
-      let res = await axios.post('http://localhost:3080/user/signUp', userData);
-      if (response.status === 200) {
+      let res = await axios.post('http://localhost:3080/user/signUp', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.status === 200) {
         console.log("user created successfully");
-        alert("Login successful.");
+        alert("SignUp successful.");
         // setTimeout(() => {
         navigate("/user/Login");
         // }, 1500);
@@ -265,7 +290,7 @@ const SignUp = () => {
           <Form.Group >
             <Form.Control
               required
-              type="phoneNumber"
+              type="number"
               placeholder="phoneNumber"
               name="phoneNumber"
               onChange={handleChange}
@@ -278,7 +303,7 @@ const SignUp = () => {
           <Form.Group >
             <Form.Control
               required
-              type="street"
+              type="text"
               placeholder="street"
               name="street"
               onChange={handleChange}
@@ -296,7 +321,7 @@ const SignUp = () => {
           <Form.Group>
             <Form.Control
               required
-              type="city"
+              type="text"
               value={userData?.city}
               placeholder="city"
               name="city"
@@ -310,7 +335,7 @@ const SignUp = () => {
           <Form.Group>
             <Form.Control
               required
-              type="state"
+              type="text"
               value={userData?.state}
               placeholder="state"
               name="state"
@@ -326,7 +351,7 @@ const SignUp = () => {
           <Form.Group >
             <Form.Control
               required
-              type="pincode"
+              type="text"
               placeholder="pincode"
               name="pincode"
               onChange={handleChange}
@@ -339,7 +364,7 @@ const SignUp = () => {
           <Form.Group>
             <Form.Control
               required
-              type="nationality"
+              type="text"
               value={userData?.nationality}
               placeholder="nationality"
               name="nationality"
@@ -347,6 +372,21 @@ const SignUp = () => {
             />
             <Form.Control.Feedback type="invalid">
               Please Enter your nationality
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div><br />
+        <div className="signup-form-flex-div">
+          <Form.Group>
+            <Form.Control
+              required
+              type="file"
+              // value={userData?.profilePic}
+              placeholder="Profile Picture"
+              name="profilePic"
+              onChange={handleFilechange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Add Your Profile Picture
             </Form.Control.Feedback>
           </Form.Group>
         </div>

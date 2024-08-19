@@ -16,6 +16,7 @@ const AddProductDetails = () => {
         description: "",
         quantity: "",
         price: "",
+        sellerId: "",
         expDate: "",
         // productImg:"",
     });
@@ -44,7 +45,8 @@ const AddProductDetails = () => {
             !addProductData.description ||
             !addProductData.quantity ||
             !addProductData.price ||
-            !addProductData.expDate 
+            !addProductData.sellerId ||
+            !addProductData.expDate
             // !addProductData.productImg
         ) {
             console.log("Please fill all the fields");
@@ -68,13 +70,13 @@ const AddProductDetails = () => {
             if (error.response?.status === 400 || error.response?.status === 404) {
                 let mssg = error.response?.data?.message || "something went wrong ,please try later";
                 alert(mssg);
-            } 
+            }
         }
     };
 
     return (
         <>
-          <NavBar />
+            <NavBar />
             <div>
                 <Row className="align-items-center">
                     <Col md={6} className="addProduct-mainContent">
@@ -163,6 +165,20 @@ const AddProductDetails = () => {
                             <Form.Group>
                                 <Form.Control
                                     required
+                                    type="text"
+                                    placeholder="seller Id"
+                                    name="sellerId"
+                                    onChange={handleChange}
+                                    value={addProductData.sellerId}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter valid sellerId.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group>
+                                <Form.Control
+                                    required
                                     type="date"
                                     placeholder="Enter the expiry date of product"
                                     name="expDate"
@@ -196,8 +212,8 @@ const AddProductDetails = () => {
                 </Row>
             </div>
             <div>
-        <Footer />
-      </div>
+                <Footer />
+            </div>
         </>
     );
 };

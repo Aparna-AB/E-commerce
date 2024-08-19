@@ -57,7 +57,7 @@ function Login() {
       const response = await axios.post('http://localhost:3080/user/login', data);
       if (response.status === 200) {
         console.log("user logged in successfully");
-        navigate("/user/profilePage");
+        navigate("/user/homePage");
         // dispatch(addTodo({
         //   firstName: userLoginData.firstName,
         //   email:userLoginData.email

@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { BsSearch, BsHeart } from "react-icons/bs";
 import { GrCart } from "react-icons/gr";
 import axios from "axios";
-import "./profilePageSeller.css";
+import "./profilePage.css";
 import Footer from "../../Footer/footer";
 import NavBar from "../../NavBar/navBar";
 import ProductsList from "../../Products/productsList";
 
-function ProfilePageSeller() {
-    const [sellerData, setSellerData] = useState(null);
+function AdminProfilePage() {
+    const [adminData, setAdminData] = useState(null);
     const navigate = useNavigate();
     // const todos = useSelector((state) => state.todo.eCommerceTodos);
 
@@ -26,54 +26,8 @@ function ProfilePageSeller() {
     const min = date.getMinutes();
     const sec = date.getSeconds();
     const currTime = `${hr}:${min}:${sec}`;
-
-    useEffect(() => {
-        const storedSellerData = JSON.parse(localStorage.getItem("ecommerce-sellerData")) || null;
-        console.log("stored seller data", storedSellerData);
-        const token = localStorage.getItem("ecommerce-seller-token") || null;
-        const sellerId = storedSellerData?._id || null;
-
-        if (token && sellerId) {
-            getSellerData(token, sellerId);
-        } else {
-            setSellerData(null);
-        }
-    }, []);
-
-    const getSellerData = async (token, sellerId) => {
-        console.log("token", token, "sellerId", sellerId);
-        try {
-            const res = await axios.get(`http://localhost:3080/seller/${sellerId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            console.log("resp", res.data.data);
-            const data = res.data.data;
-            if (data) {
-                console.log("Data", data);
-                setSellerData(data);
-            } else {
-                console.log("Seller data not found");
-            }
-        } catch (error) {
-            console.error("Error on get seller data", error);
-            if (error.response?.status === 404 || error.response?.status === 500) {
-                alert("Seller not found");
-            } else {
-                alert("Something went wrong! Try again later");
-            }
-        }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem("ecommerce-sellerData");
-        localStorage.removeItem("ecommerce-seller-token");
-        setSellerData(null);
-        navigate('/seller/SellerLogin');
-    };
-
+    
+    
     const navigateHome = () => {
         navigate('/HomePage');
     };
@@ -81,20 +35,22 @@ function ProfilePageSeller() {
     const navigateToProductsList = () => {
         navigate('/product/ProductsList');
     };
-    const addProductDetails = () => {
-        navigate('/seller/AddProductDetails');
+    const viewSellers = () => {
+        navigate('/admin/sellersList');
     };
-
-    const navigateToCart = () => {
-        navigate('/cart');
+    const viewUsers = () => {
+        navigate('/usersList');
+    };
+    const handleLogout=()=>{
+        navigate('/HomePage');
     };
 
     return (
         <>
-            <div className="sellerProfile-mainContainer">
+            <div className="adminProfile">
                 <Row>
                     <Col xs={12}>
-                        <div className="sellerProfileHeader">
+                        <div className="adminHeader">
                             <p>
                                 Summer Sale off is here up to 40% for all products and Free
                                 Express Delivery!!!! &nbsp; <strong>Shop Now</strong>
@@ -102,57 +58,52 @@ function ProfilePageSeller() {
                         </div>
                         <Row>
                             <Col md={3}>
-                                <div className="sellerMainContent">
-                                    {sellerData?.name && (
+                                <div className="adminMain">
+                                    {adminData?.name && (
                                         <>
                                             <h5 style={{ fontFamily: "cursive" }}>
-                                                Welcome,
+                                                Welcome Admin,
                                                 <span style={{ color: "blue", textTransform: "capitalize" }}>
-                                                    <strong> {sellerData.name}</strong>
+                                                    <strong> {adminData.name}</strong>
                                                 </span>
                                             </h5>
                                             <h6>
-                                                <span style={{ fontFamily: "cursive" }}>{sellerData.email}</span>
+                                                <span style={{ fontFamily: "cursive" }}>{adminData.email}</span>
                                             </h6>
                                         </>
                                     )}
                                 </div>
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={5}>
                                 <div className="headings">
                                     <h6 onMouseUp={navigateHome}>Home</h6>
                                     <h6>Contact</h6>
                                     <h6>About</h6>
                                     <h6 onMouseUp={navigateToProductsList}>Products</h6>
-                                    <h6 onMouseUp={addProductDetails}>Add Product</h6>
+                                    <h6 onMouseUp={viewSellers}>Sellers</h6>
+                                    <h6 onMouseUp={viewUsers}>Users</h6>
+
                                 </div>
                             </Col>
-                            <Col md={3}>
-                                <div>
-                                    <form>
-                                        <input type="text" className="headings2" placeholder="What are you looking for?" />
-                                        <BsSearch className="icon1" />
-                                    </form>
-                                </div>
-                            </Col>
+                           
                             <Col md={2}>
-                                <div className="icons">
-                                    <BsHeart className="icon2" />
-                                    <GrCart className="icon3" onMouseUp={navigateToCart} />
-                                    <button
-                                        className="logout"
-                                        onClick={handleLogout}
-                                    >
-                                        Logout
-                                    </button>
-                                </div>
+                                <h4 style={{marginTop:"30px",textDecoration:"underline"}}>Welcome ADMIN</h4>
+
+                            </Col>
+                            <Col md={1} >
+                            <button
+                    className="logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
                             </Col>
                             <hr />
                         </Row>
                     </Col>
                 </Row>
             </div>
-            <div className="sellerHome-div">
+            <div className="adminHome-div">
                 <Row>
                     <Col>
                         <Row>
@@ -186,7 +137,7 @@ function ProfilePageSeller() {
                                 </div>
                                 <div className="hrLine"></div> */}
                             {/* </Col> */}
-                            {/* <div className="sellerHome-content2">
+                            <div className="adminHome-content2">
                                     <h6>
                                         <span style={{ color: "red" }}>Date:</span> {currDate}
                                     </h6>
@@ -194,12 +145,12 @@ function ProfilePageSeller() {
                                         <span style={{ color: "red" }}>Time:</span> {currTime}
                                     </h6>
                                 </div>
-                                */}
+                               
                             <Col lg={12}>
 
-                                {/* <div className="productListView">
+                                <div className="productListView">
                                     <ProductsList />
-                                </div> */}
+                                </div>
                             </Col>
                         </Row>
                     </Col>
@@ -213,4 +164,4 @@ function ProfilePageSeller() {
     );
 }
 
-export default ProfilePageSeller;
+export default AdminProfilePage;

@@ -33,15 +33,15 @@ function ProductsList() {
     const redirectProductDetails = (id) => {
         navigate("/product/ProductsDetails/" + id);
     };
-const handleBack=()=>{
-    navigate('/seller/AddProductDetails');
-};
+    const handleBack = () => {
+        navigate('/seller/AddProductDetails');
+    };
     // const addToCart = (id) => {
     //     navigate('/cart');
     // };
 
     // const wishlist = (id) => {
-        // Add to wishlist logic here
+    // Add to wishlist logic here
     // };
 
     return (
@@ -51,7 +51,7 @@ const handleBack=()=>{
             <Button variant="primary"className="back" onClick={handleBack}>Back</Button>
 
             </div> */}
-            <br/>
+            <br />
             <div className="productOrder">
                 {viewProduct.length === 0 && <h2>Data loading...</h2>}
                 {viewProduct.map((product) => (
@@ -63,12 +63,12 @@ const handleBack=()=>{
                             onClick={() => redirectProductDetails(product._id)}
                         />
                         <div className="card-body">
-                            <h5 style={{ fontFamily:"monospace" }}>
+                            <h5 style={{ fontFamily: "monospace" }}>
                                 Name: <span style={{ color: "blue", textTransform: "capitalize" }}><strong>{product.name}</strong></span>
                             </h5>
                             <h6>Title: <span style={{ fontFamily: "cursive" }}>{product.title}</span></h6>
-                            <h6 className="card-text">Description: 
-                               &nbsp; <span style={{ color: "blue",fontFamily:"monospace" }}>{product.description}</span>
+                            <h6 className="card-text">Description:
+                                &nbsp; <span style={{ color: "blue", fontFamily: "monospace" }}>{product.description}</span>
                             </h6>
                             {/* <Button
                                 variant="primary"
@@ -85,7 +85,7 @@ const handleBack=()=>{
                             >
                                 Add to Wishlist
                             </Button> */}
-                        </div>
+                        </div><br />
                     </div>
                 ))}
             </div>
